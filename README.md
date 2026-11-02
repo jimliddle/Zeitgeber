@@ -6,6 +6,9 @@ The whole app is one HTML file, with a small `sw.js` beside it that lets the ins
 
 Zeitgeber is an independent project. It is not connected to Amazfit or Zepp Health, and it is not a medical device. Its charts show patterns in your data and should not be used for diagnosis.
 
+<img width="745" height="385.5" alt="sleep image" src="https://github.com/user-attachments/assets/97c796e7-ce83-429f-a98a-0f410f6b5c61" />
+
+
 ## Using it
 
 The app is at:
