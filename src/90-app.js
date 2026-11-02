@@ -224,7 +224,7 @@ function importReport(r){
     el('div',null,el('button',{class:'btn primary',type:'button',onclick:()=>{UI.view='overview';render();scrollTo(0,0)}},'See my data')));
 }
 function pageSources(m){
-  m.append(lede('Add your data.','Zepp offers no public API, so Zeitgeber reads your official export, can pull from Zepp’s cloud with your own token, and can stream live heart rate from the watch.'));
+  m.append(lede('Add your data.','The easiest way is to export it from your Zepp account and import the file here. Cloud sync and live heart rate are optional extras.'));
   const status=el('div',{class:'small',role:'status'}),input=el('input',{type:'file',multiple:true,accept:'.zip,.csv,application/zip,text/csv',hidden:true,onchange:e=>doImport([...e.target.files],status)});
   const drop=el('div',{class:'drop'},el('p',null,'Drop your Zepp export here'),el('button',{class:'btn primary',type:'button',onclick:()=>input.click()},'Choose ZIP or CSV files'),input);
   drop.addEventListener('dragover',e=>{e.preventDefault();drop.classList.add('over')});
@@ -233,8 +233,12 @@ function pageSources(m){
     const walk=en=>new Promise(ok=>{if(en.isFile)en.file(f=>ok([f]),()=>ok([]));else{const r=en.createReader(),all=[];const next=()=>r.readEntries(async b=>{if(!b.length)return ok((await Promise.all(all.map(walk))).flat());all.push(...b);next()},()=>ok([]));next()}});
     const roots=[...e.dataTransfer.items].map(i=>i.webkitGetAsEntry&&i.webkitGetAsEntry()).filter(Boolean);
     doImport(roots.length?(await Promise.all(roots.map(walk))).flat():[...e.dataTransfer.files],status)});
-  const left=el('section',{class:'stack'},el('h2',null,'Official export'),
-    el('ol',{class:'steps small'},el('li',null,'In the Zepp app, open Profile, then Settings, then Account, and choose Export data. Menu names vary by version.'),el('li',null,'Pick your dates and save the ZIP. Zepp shows or emails a password for it.'),el('li',null,'Drop the ZIP below. You can add overlapping exports; duplicates merge.')),
+  const left=el('section',{class:'stack'},el('h2',null,'Export from your Zepp account'),
+    el('ol',{class:'steps small'},
+      el('li',null,'Sign in to your ',el('a',{href:'https://user.huami.com/privacy2/index.html',target:'_blank',rel:'noopener noreferrer'},'Zepp account page'),' and choose Export data. Don’t choose Clear data or Delete account.'),
+      el('li',null,'Keep every data type ticked, and pick dates from your first day with the watch to today.'),
+      el('li',null,'When the export is ready, download the ZIP and keep its password. Zepp supplies the password with the export.'),
+      el('li',null,'Drop the ZIP below. You can add overlapping exports; duplicates merge.')),
     drop,status);
   const H=[['api-mifit-de2.zepp.com','Europe (de2)'],['api-mifit-us2.zepp.com','Americas (us2)'],['api-mifit-us3.zepp.com','Americas (us3)'],['api-mifit.zepp.com','Global'],['api-mifit-sg2.zepp.com','Asia Pacific (sg2)'],['api-mifit-cn3.zepp.com','China (cn3)']];
   const fld=(l,k,t='text',ph='')=>el('label',{class:'f'},l,el('input',{type:t,value:CFG[k]||'',placeholder:ph,autocomplete:'off',onchange:e=>{CFG[k]=e.target.value.trim();saveCfg()}}));
@@ -259,7 +263,8 @@ function pageSources(m){
     else if(res.blocked){msg.replaceChildren('Zepp’s servers did not accept a request from this page. Use the local relay below, then sync again.');relayBox.open=true}
     else{msg.replaceChildren(`Synced at ${new Date().toLocaleTimeString()}.`)}
   };
-  const right=el('section',{class:'stack'},el('h2',null,'Zepp cloud'),
+  const right=el('section',{class:'stack'},el('h2',null,'Zepp cloud sync (optional)'),
+    el('p',{class:'small'},'Most people don’t need this: the export above gives you your data with no token or browser cookies. Use cloud sync only if you want regular updates and are happy to copy a token by hand.'),
     el('p',{class:'small'},'This uses Zepp’s private API, found by community developers. It can change or stop working at any time, and using it may not be covered by Zepp’s terms. Your Zepp password is never needed.'),
     el('details',null,el('summary',null,'Find your token'),el('ol',{class:'steps small'},el('li',null,'Open user.huami.com/privacy2/index.html in a desktop browser and sign in.'),el('li',null,'Press F12, open Application (Storage in Firefox), then Cookies, then user.huami.com.'),el('li',null,'Copy the values of apptoken and userid here.'))),
     el('div',{class:'formgrid'},fld('User ID','userId'),fld('App token','token','password'),

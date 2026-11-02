@@ -42,11 +42,18 @@ Each browser keeps its own separate vault, and so does an app installed on an iP
 
 ## Getting your data in
 
-**Zepp export.** This is the most reliable route. In the Zepp app, look for **Export data** in your profile or account settings. Menu names vary between versions. Drop the ZIP on the Sources page and enter its password if it has one. You can import overlapping exports, and duplicates are merged.
+**Zepp export.** This is the easiest and most reliable route, and you don't need a token or browser cookies.
+
+1. Sign in at [user.huami.com/privacy2/index.html](https://user.huami.com/privacy2/index.html) and choose **Export data**. Don't choose **Clear data** or **Delete account**.
+2. Keep every data type ticked, and pick dates from your first day with the watch to today.
+3. When the export is ready, download the ZIP and keep its password. Zepp supplies the password with the export.
+4. Drop the ZIP on the Sources page and enter the password. You can import overlapping exports, and duplicates are merged.
+
+Once the import looks right, delete the ZIP, because it holds your health data with only that password protecting it.
 
 The export mixes UTC and local times, and in the exports used for testing the minute-by-minute sleep rows were dated a day late. Zeitgeber measures and corrects both, then tells you what it did.
 
-**Zepp cloud sync.** Zepp has no public API, so this uses a private one that was worked out by community developers. It may stop working at any time, and it may not be allowed by Zepp's terms. You copy a token from your own login and never enter your Zepp password. Tokens last about 30 days. The Sources page explains how to find one.
+**Zepp cloud sync (optional).** You only need this if you want regular updates without repeating the export. Zepp has no public API, so this uses a private one that was worked out by community developers. It may stop working at any time, and it may not be allowed by Zepp's terms. You copy a token from your own login and never enter your Zepp password. Tokens last about 30 days. The Sources page explains how to find one.
 
 Zepp's servers may refuse requests from a web page. If that happens, the app offers a small Python script that runs on your computer and passes the requests on. It accepts only requests carrying your private key, and it forwards only to Zepp. It needs a computer, so it won't help on a phone.
 
