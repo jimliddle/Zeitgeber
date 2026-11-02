@@ -90,18 +90,6 @@ There are limits to this:
 - Because the app has no separate manifest file, Android may add it as a home screen shortcut instead of a full app. It should still open in its own window.
 - Saving files from the installed app on a phone uses the system share sheet, so it may behave differently between devices.
 
-## Changing the code
-
-`index.html` is generated, so edit the files in `src/` and rebuild it. `sw.js` is written by hand and isn't part of the build.
-
-```
-python3 build.py
-```
-
-This needs Python 3 and no other packages. It joins the source files, embeds the fonts and icons, and updates the hashes in the content security policy.
-
-Running `python3 build.py --test` writes a test build to `dist/`. It exposes internals to browser tests, so don't publish it.
-
 ## Licence
 
 MIT, see [LICENSE](LICENSE). The fonts and sport names have their own licences, listed in [THIRD_PARTY.md](THIRD_PARTY.md).
