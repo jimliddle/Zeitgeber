@@ -47,6 +47,8 @@ function setupPWA(){
     id:location.pathname,start_url:page,scope,display:'standalone',orientation:'any',background_color:'#17163A',theme_color:'#17163A',lang:'en',categories:['health','fitness'],
     icons:[{src:APP_ICONS.a192,sizes:'192x192',type:'image/png',purpose:'any'},{src:APP_ICONS.a512,sizes:'512x512',type:'image/png',purpose:'any'},{src:APP_ICONS.m512,sizes:'512x512',type:'image/png',purpose:'maskable'}]};
   document.head.append(el('link',{rel:'manifest',href:'data:application/manifest+json;charset=utf-8,'+encodeURIComponent(JSON.stringify(m))}));
+  /* sw.js sits beside this page and adds offline start-up. Without it the app still works, online. */
+  if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
 }
 const installState=()=>standalone()?'installed':installEvt?'prompt':!hosted()?'local':/iphone|ipad|ipod/i.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1)?'ios':'menu';
 function installBlock(){
@@ -56,7 +58,7 @@ function installBlock(){
   else if(st==='ios')box.append(el('p',{class:'small'},'In Safari, tap Share, then Add to Home Screen.'));
   else if(st==='menu')box.append(el('p',{class:'small'},'Open your browser’s menu and choose Install app, or Add to Home screen.'));
   else box.append(el('p',{class:'small'},'Installing needs the hosted version of this page. A file opened from your computer cannot be installed.'));
-  if(st!=='installed'&&st!=='local')box.append(el('p',{class:'small muted'},'The app loads from the web each time you open it, so it needs a connection to start. Your data stays on this device.'));
+  if(st!=='local')box.append(el('p',{class:'small muted'},'After your first visit the app opens without a connection. Syncing with Zepp still needs one.'));
   return box;
 }
 function shell(){

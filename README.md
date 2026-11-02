@@ -2,7 +2,7 @@
 
 Zeitgeber is a private analytics app for Amazfit watches. It turns your heart rate, sleep and activity data into detailed charts, and it keeps that data encrypted on your own device.
 
-The whole app is one HTML file. There is no account, no server and no tracking. You can install it on a phone or computer as a web app, or just open it in a browser.
+The whole app is one HTML file, with a small `sw.js` beside it that lets the installed app start offline. There is no account, no server and no tracking. You can install it on a phone or computer as a web app, or just open `index.html` in a browser.
 
 Zeitgeber is an independent project. It is not connected to Amazfit or Zepp Health, and it is not a medical device. Its charts show patterns in your data and should not be used for diagnosis.
 
@@ -25,7 +25,7 @@ Installing needs HTTPS, which GitHub Pages provides.
 - **Chrome or Edge on a computer or Android phone:** open the Vault page and press **Install app**. If the button isn't there, use the browser menu and choose **Install app** or **Add to Home screen**.
 - **iPhone or iPad:** open the page in Safari, tap **Share**, then **Add to Home Screen**.
 
-The app has to load from the web each time it starts, so you need a connection to open it. Once it is open it keeps working without one. This is a side effect of keeping everything in one file. Full offline start-up needs a service worker, and browsers only accept those as a separate JavaScript file.
+After your first visit, the app starts without a connection. When you're online it loads the latest version, and if the network fails or takes more than three seconds it uses the copy saved on your device. Syncing with Zepp still needs a connection.
 
 ## First run
 
@@ -70,6 +70,7 @@ Correlations are corrected for the number of comparisons made and for how much o
 - Record names are hashed, so the database doesn't show which dates or data types it holds.
 - The app locks after a period of inactivity, and when you return to it after that period has passed.
 - A content security policy inside the file blocks outside scripts and all connections except Zepp and the local relay.
+- `sw.js` saves a copy of the app page and nothing else. Your data never passes through it.
 
 There are limits to this:
 
@@ -86,7 +87,7 @@ There are limits to this:
 
 ## Changing the code
 
-`index.html` is generated, so edit the files in `src/` and rebuild it:
+`index.html` is generated, so edit the files in `src/` and rebuild it. `sw.js` is written by hand and isn't part of the build.
 
 ```
 python3 build.py
