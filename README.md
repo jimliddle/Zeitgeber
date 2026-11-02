@@ -8,7 +8,7 @@ Zeitgeber is an independent project. It is not connected to Amazfit or Zepp Heal
 
 ## Using it
 
-Once GitHub Pages is switched on, the app is at:
+The app is at:
 
 https://jimliddle.github.io/Zeitgeber/
 
