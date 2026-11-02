@@ -1,0 +1,13 @@
+<!doctype html><body style="margin:0;background:transparent"><canvas id=c></canvas><script>
+window.draw=(S,mask)=>{const c=document.getElementById('c');c.width=c.height=S;const g=c.getContext('2d');g.clearRect(0,0,S,S);
+ const r=mask?0:S*.2;g.fillStyle='#17163A';g.beginPath();g.roundRect(0,0,S,S,r);g.fill();
+ // 24-hour dial: daylight arc, night arc, and a pulse through the centre
+ const cx=S/2,cy=S/2,R=S*(mask?.285:.335),w=S*(mask?.078:.09);
+ const a=h=>h/24*2*Math.PI-Math.PI/2;
+ g.lineCap='round';g.lineWidth=w;
+ g.strokeStyle='#F2B04A';g.beginPath();g.arc(cx,cy,R,a(7.2),a(21.8));g.stroke();
+ g.strokeStyle='#8E70EE';g.beginPath();g.arc(cx,cy,R,a(23.2),a(5.8));g.stroke();
+ const L=R*.68;g.strokeStyle='#ECEAFA';g.lineWidth=S*(mask?.042:.048);g.lineJoin='round';
+ g.beginPath();g.moveTo(cx-L,cy+S*.012);g.lineTo(cx-L*.42,cy+S*.012);g.lineTo(cx-L*.18,cy-R*.46);g.lineTo(cx+L*.14,cy+R*.5);g.lineTo(cx+L*.38,cy+S*.012);g.lineTo(cx+L,cy+S*.012);g.stroke();
+ return c.toDataURL('image/png')};
+</script>
